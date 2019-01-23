@@ -42,7 +42,7 @@ const currencyFactory = currency => ({
 const coinMarketCapApi = axios.create({
   baseURL: 'https://pro-api.coinmarketcap.com/v1/',
   timeout: 10000,
-  headers: {'X-CMC_PRO_API_KEY': ''}
+  headers: {'X-CMC_PRO_API_KEY': coinMarketCapApiKey}
 });
 
 
