@@ -1,28 +1,31 @@
 <div class="card table-striped table-hover">
   <div class="card-header ">
-    <h4 class="card-title">Striped Table with Hover</h4>
-    <p class="card-category">Here is a subtitle for this table</p>
+    <h4 class="card-title">Top 100 cryptocurrencies</h4>
+    <span class="card-category">
+      <app-refresh-currency-link></app-refresh-currency-link>
+    </span>
   </div>
   <div class="card-body table-full-width table-responsive">
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-striped" *ngIf="!!((items$ | async)?.length) || (loading$ | async); else noData">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Salary</th>
-          <th>Country</th>
-          <th>City</th>
+          <th>Rank</th>
+          <th>Symbol</th>
+          <th>Price ({{uiCurrency}})</th>
+          <th>24H %</th>
         </tr>
       </thead>
       <tbody>
-        <tr [routerLink]="['detail', 1]">
-          <td>1</td>
-          <td>John</td>
-          <td>10</td>
-          <td>United Kingdom</td>
-          <td>London</td>
+        <tr *ngFor=" let item of items$ | async; trackBy: trackByFn;" [routerLink]="['currency', item.slug]">
+          <td>{{ item.rank }}</td>
+          <td>{{ item.symbol }}</td>
+          <td>{{ item.quote[uiCurrency].price | number:'1.0-4' }}</td>
+          <td>{{ item.quote[uiCurrency].percentChange24Hours | percent }}</td>
         </tr>
       </tbody>
     </table>
+    <ng-template #noData>
+      No data.
+    </ng-template>
   </div>
 </div>

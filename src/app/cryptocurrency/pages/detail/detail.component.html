@@ -1,24 +1,119 @@
-<div class="card">
+<div class="card" *ngIf="!!(item$ | async) === true && (item$ | async) as item; else notFound">
   <div class="card-header ">
-    <h4 class="card-title">Striped Table with Hover</h4>
-    <p class="card-category">Here is a subtitle for this table</p>
+    <h4 class="card-title">{{ item.name }} detail information</h4>
+    <span class="card-category">
+      <app-refresh-currency-link></app-refresh-currency-link>
+    </span>
   </div>
   <div class="card-body">
     <div class="row">
       <div class="col-md-3">
-        <label>First</label>
+        <label>Rank</label>
       </div>
       <div class="col-md-9">
-        Value
+        {{ item.rank }}
       </div>
     </div>
     <hr />
     <div class="row">
       <div class="col-md-3">
-        <label>Second</label>
+        <label>Name</label>
       </div>
       <div class="col-md-9">
-        Value
+        {{ item.name }}
       </div>
     </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-3">
+        <label>Symbol</label>
+      </div>
+      <div class="col-md-9">
+        {{ item.symbol }}
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-3">
+        <label>{{ uiCurrency }}</label>
+      </div>
+      <div class="col-md-3">
+        <label>Price</label>
+      </div>
+      <div class="col-md-3">
+        {{ item.quote[uiCurrency].price | number:'1.0-9' }} ({{ uiCurrency }})
+      </div>
+      <div class="col-md-3 offset-md-3">
+        <label>24h volume</label>
+      </div>
+      <div class="col-md-6">
+        {{ item.quote[uiCurrency].volumeLast24Hours | number }} ({{ uiCurrency }})
+      </div>
+      <div class="col-md-3 offset-md-3">
+        <label>Market cap</label>
+      </div>
+      <div class="col-md-6">
+        {{ item.quote[uiCurrency].marketCapitalization | number }} ({{ uiCurrency }})
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-3">
+        <label>BTC</label>
+      </div>
+      <div class="col-md-3">
+        <label>Price</label>
+      </div>
+      <div class="col-md-6">
+        {{ item.quote['BTC'].price | number:'1.0-9' }} (BTC)
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-3">
+        <label>Changes (%)</label>
+      </div>
+      <div class="col-md-3">
+        <label>1h change</label>
+      </div>
+      <div class="col-md-3">
+        {{ item.quote[uiCurrency].percentChange1Hour | percent }}
+      </div>
+      <div class="col-md-3 offset-md-3">
+        <label>24h change</label>
+      </div>
+      <div class="col-md-6">
+        {{ item.quote[uiCurrency].percentChange24Hours | percent }}
+      </div>
+      <div class="col-md-3 offset-md-3">
+        <label>7d change</label>
+      </div>
+      <div class="col-md-6">
+        {{ item.quote[uiCurrency].percentChange7Days | percent }}
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-3">
+        <label>Supply</label>
+      </div>
+      <div class="col-md-3">
+        <label>Available</label>
+      </div>
+      <div class="col-md-6">
+        {{ item.circulatingSupply | number }} ({{ item.symbol }})
+      </div>
+      <div class="col-md-3 offset-md-3">
+        <label>Total</label>
+      </div>
+      <div class="col-md-6">
+        {{ item.totalSupply | number }} ({{ item.symbol }})
+      </div>
+    </div>
+  </div>
 </div>
+<ng-template #notFound>
+  <div class="jumbotron">
+    <h1 class="display-4">Currency not found.</h1>
+  </div>
+</ng-template>

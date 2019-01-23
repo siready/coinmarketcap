@@ -8,6 +8,7 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationComponent {
+
   @Output() homeButtonClicked: EventEmitter<void> = new EventEmitter();
   @Output() settingsButtonClicked: EventEmitter<void> = new EventEmitter();
 

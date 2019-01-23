@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '', component: CryptocurrencyComponent,
     children: [
       { path: '', component: ListComponent },
-      { path: 'detail/:id', component: DetailComponent },
+      { path: 'currency/:slug', component: DetailComponent },
       { path: 'settings', component: SettingsComponent },
       { path: '**', redirectTo: '' },
     ]

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { CurrencyActions } from '../../store/currency-store.actions';
+
 @Component({
   selector: 'app-cryptocurrency',
   templateUrl: './cryptocurrency.component.html',
@@ -9,7 +11,9 @@ import { Router } from '@angular/router';
 })
 export class CryptocurrencyComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, currencyActions: CurrencyActions) {
+    currencyActions.loadAll();
+  }
 
   homeButtonClicked(): void {
     this.router.navigate(['']);

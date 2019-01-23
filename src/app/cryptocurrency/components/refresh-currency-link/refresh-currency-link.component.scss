@@ -1,0 +1,13 @@
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+
+:host {
+  .btn {
+    padding: 0px;
+    color: $black;
+
+    &:focus:not(:hover) {
+      text-decoration: none;
+    }
+  }
+}
