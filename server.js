@@ -7,6 +7,14 @@ const app = express();
 const router = express.Router();
 const port = parseInt(process.env.PORT || '3000', 10);
 
+const coinMarketCapApiKey = '';
+
+// verify api key
+if (coinMarketCapApiKey === '') {
+  console.error('ERROR - please enter CoinMarketCap API key in server.js.');
+  return -1;
+}
+
 // factories to transform data structure
 const quoteFactory = quote => ({
   price: quote.price,
