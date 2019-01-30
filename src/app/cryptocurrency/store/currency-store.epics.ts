@@ -13,7 +13,7 @@ import { SettingsActions, SettingsActionType } from './settings-store.actions';
 })
 export class CurrencyEpics {
 
-  constructor(private currencyService: CurrencyService, private actions: CurrencyActions) {}
+  constructor(private currencyService: CurrencyService, private actions: CurrencyActions) { }
 
   loadCurrencyEpic: Epic<CurrencyActionType, CurrencyActionType, IAppState> = (action$) => {
     return action$.pipe(
@@ -21,13 +21,9 @@ export class CurrencyEpics {
       switchMap(() =>
         this.currencyService.getList().pipe(
           map(data => this.actions.loadSucceeded(data)),
-          catchError(response =>
-            of(
-              this.actions.loadFailed({
-                status: '' + response.status,
-              }),
-            ),
-          ),
+          catchError(response => of(
+            this.actions.loadFailed(new Error(response.status))
+          )),
           startWith(this.actions.loadStarted())
         )
       )

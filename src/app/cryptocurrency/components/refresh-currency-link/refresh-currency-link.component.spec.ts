@@ -1,25 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { createTestComponentFactory, Spectator } from '@netbasal/spectator';
 
+import { CurrencyActions } from '../../store/currency-store.actions';
 import { RefreshCurrencyLinkComponent } from './refresh-currency-link.component';
 
 describe('RefreshCurrencyLinkComponent', () => {
-  let component: RefreshCurrencyLinkComponent;
-  let fixture: ComponentFixture<RefreshCurrencyLinkComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RefreshCurrencyLinkComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RefreshCurrencyLinkComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<RefreshCurrencyLinkComponent>;
+  const createComponent = createTestComponentFactory({
+    component: RefreshCurrencyLinkComponent,
+    mocks: [CurrencyActions],
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    spectator = createComponent();
+    expect(spectator.component).toBeTruthy();
+    expect(spectator.query('button')).toHaveText('Refresh');
   });
+
+  it('should call loadAll on CurrencyActions', () => {
+    spectator = createComponent();
+
+    spectator.click('button');
+    expect(spectator.get<CurrencyActions>(CurrencyActions).loadAll.calls.count()).toEqual(1);
+  });
+
 });
