@@ -18,7 +18,7 @@ export interface ICurrencyListAPI {
 export interface ICurrencyList {
   items: ICurrencyItemType;
   loading: boolean;
-  error: any;
+  error: Error | null;
 }
 
 export interface ICurrency {

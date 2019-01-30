@@ -1,9 +1,10 @@
 import { MockNgRedux, NgReduxTestingModule } from '@angular-redux/store/testing';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { createService, mockProvider } from '@netbasal/spectator';
+import { createService } from '@netbasal/spectator';
 import { cold } from 'jasmine-marbles';
 import { IAppState } from 'src/app/store/store.model';
 
+import { currencyItemTypeMock } from './cryptocurrency-store.mocks';
 import { AvailableCurrencies, ICurrencyItemType, ICurrencyListAPI } from './cryptocurrency-store.model';
 import { CurrencyService } from './currency.service';
 
@@ -21,7 +22,7 @@ describe('CurrencyService', () => {
 
   it('should return expected list of currencies', () => {
     const resultData: RecursivePartial<ICurrencyListAPI> = {
-      data: { bitcoin: { id: 0, name: 'bitcoin', symbol: 'BTC', slug: 'bitcoin' } }
+      data: currencyItemTypeMock
     };
     const httpClientSpy = spectator.get<HttpClient>(HttpClient);
     httpClientSpy.get.and.returnValue(cold('-x|', { x: resultData }));
