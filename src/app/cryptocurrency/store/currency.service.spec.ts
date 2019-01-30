@@ -21,13 +21,13 @@ describe('CurrencyService', () => {
   });
 
   it('should return expected list of currencies', () => {
-    const resultData: RecursivePartial<ICurrencyListAPI> = {
+    const resultData: ICurrencyListAPI = {
       data: currencyItemTypeMock
     };
     const httpClientSpy = spectator.get<HttpClient>(HttpClient);
     httpClientSpy.get.and.returnValue(cold('-x|', { x: resultData }));
 
-    spectator.service.getList().subscribe(data => expect(data).toBe(resultData.data as ICurrencyItemType));
+    spectator.service.getList().subscribe(data => expect(data).toBe(resultData.data));
 
     expect(httpClientSpy.get.calls.argsFor(0)).toEqual(['/api/currency/USD']);
     expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');

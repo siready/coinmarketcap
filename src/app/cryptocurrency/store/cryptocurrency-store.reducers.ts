@@ -3,7 +3,6 @@ import { combineReducers, Reducer } from 'redux';
 import {
   CURRENCIES_INIT_STATE,
   ICryptocurrencyStore,
-  ICurrencyItemType,
   ICurrencyList,
   ISettings,
   SETTINGS_INIT_STATE,
@@ -26,12 +25,12 @@ export const currenciesReducer: Reducer<ICurrencyList, CurrencyActionType> = (
       return {
         ...state,
         loading: false,
-        error: (action.payload as Error) // TODO: casting should go away once issue described in currency-store.actions is resolved
+        error: action.payload
       };
     case CurrencyActions.CURRENCY_LOAD_SUCCEEDED:
       return {
         ...state,
-        items: (action.payload as ICurrencyItemType) || {},
+        items: action.payload,
         loading: false,
         error: null
       };

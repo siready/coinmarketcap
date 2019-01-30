@@ -34,10 +34,10 @@ describe('Cryptocurrency reducers', () => {
     expect(
       currenciesReducer(undefined, {
         type: CurrencyActions.CURRENCY_LOAD_SUCCEEDED,
-        payload: (currencyItemTypeMock as ICurrencyItemType)
+        payload: currencyItemTypeMock
       })
     ).toEqual({
-      items: (currencyItemTypeMock as ICurrencyItemType),
+      items: currencyItemTypeMock,
       loading: false,
       error: null
     });

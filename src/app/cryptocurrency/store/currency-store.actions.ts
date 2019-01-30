@@ -5,12 +5,20 @@ import { ErrorFluxStandardAction, FluxStandardAction } from 'flux-standard-actio
 import { ICurrencyItemType } from './cryptocurrency-store.model';
 
 // Flux-standard-action gives us stronger typing of our actions.
-/**
- * TODO: Wait until https://github.com/redux-utilities/flux-standard-action/pull/114
- *  is implemented, as currently it is not supported to enforce action to specific type
- * - as in: ErrorFluxStandardAction is restricted only to action type CURRENCY_LOAD_FAILED
- */
-export type CurrencyActionType = FluxStandardAction<ICurrencyItemType> | ErrorFluxStandardAction<Error>;
+// TODO: https://github.com/redux-utilities/flux-standard-action/pull/114 will simplify interfaces below.
+interface CurrencyActionsWithoutPayload extends FluxStandardAction<ICurrencyItemType> {
+  type: typeof CurrencyActions.CURRENCY_LOAD_ALL
+  | typeof CurrencyActions.CURRENCY_LOAD_STARTED;
+}
+interface CurrencyActionsWithPayload extends FluxStandardAction<ICurrencyItemType> {
+  type: typeof CurrencyActions.CURRENCY_LOAD_SUCCEEDED;
+  payload: ICurrencyItemType;
+}
+interface CurrencyActionsWithError extends ErrorFluxStandardAction<Error> {
+  type: typeof CurrencyActions.CURRENCY_LOAD_FAILED;
+  payload: Error;
+}
+export type CurrencyActionType = CurrencyActionsWithoutPayload | CurrencyActionsWithPayload | CurrencyActionsWithError;
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +34,12 @@ export class CurrencyActions {
   loadAll(): CurrencyActionType {
     return {
       type: CurrencyActions.CURRENCY_LOAD_ALL,
-      payload: undefined
     };
   }
 
   loadStarted(): CurrencyActionType {
     return {
       type: CurrencyActions.CURRENCY_LOAD_STARTED,
-      payload: undefined,
     };
   }
 
