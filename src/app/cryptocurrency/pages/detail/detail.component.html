@@ -1,4 +1,4 @@
-<div class="card" *ngIf="!!(item$ | async) === true && (item$ | async) as item; else notFound">
+<div class="card" *ngIf="(item$ | async) as item; else notFound">
   <div class="card-header ">
     <h4 class="card-title">{{ item.name }} detail information</h4>
     <span class="card-category">

@@ -33,6 +33,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   private submitForm(): void {
+    if (!this.settingsForm.valid) {
+      return;
+    }
+
     const formResult: ISettings = Object.assign({}, this.settingsForm.value);
     this.settingsActions.save(formResult);
   }
