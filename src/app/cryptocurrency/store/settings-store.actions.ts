@@ -15,11 +15,11 @@ export class SettingsActions {
   static readonly SETTINGS_SAVE = 'SETTINGS_SAVE';
 
   @dispatch()
-  save = (
-    payload: ISettings,
-  ): SettingsActionType => ({
-    type: SettingsActions.SETTINGS_SAVE,
-    payload,
-  })
+  save(payload: ISettings): SettingsActionType {
+    return {
+      type: SettingsActions.SETTINGS_SAVE,
+      payload,
+    };
+  }
 
 }

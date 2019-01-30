@@ -21,13 +21,9 @@ export class CurrencyEpics {
       switchMap(() =>
         this.currencyService.getList().pipe(
           map(data => this.actions.loadSucceeded(data)),
-          catchError(response =>
-            of(
-              this.actions.loadFailed({
-                status: '' + response.status,
-              }),
-            ),
-          ),
+          catchError(response => of(
+            this.actions.loadFailed({ status: '' + response.status })
+          )),
           startWith(this.actions.loadStarted())
         )
       )

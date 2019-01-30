@@ -4,14 +4,14 @@ import { createService, mockProvider } from '@netbasal/spectator';
 import { cold } from 'jasmine-marbles';
 import { IAppState } from 'src/app/store/store.model';
 
-import { AvailableCurrencies, ICurrencyListAPI } from './cryptocurrency-store.model';
+import { AvailableCurrencies, ICurrencyItemType, ICurrencyListAPI } from './cryptocurrency-store.model';
 import { CurrencyService } from './currency.service';
 
 describe('CurrencyService', () => {
   const spectator = createService({
     service: CurrencyService,
     imports: [NgReduxTestingModule],
-    providers: [mockProvider(HttpClient)]
+    mocks: [HttpClient],
   });
 
   beforeAll(() => {
@@ -20,22 +20,13 @@ describe('CurrencyService', () => {
   });
 
   it('should return expected list of currencies', () => {
-    const resultData: ICurrencyListAPI = {
-      data: {
-        'bitcoin': {
-          id: 0, name: 'bitcoin', symbol: 'BTC', slug: 'bitcoin', circulatingSupply: 0, totalSupply: 0, rank: 1, quote: {
-            'USD': {
-              price: 1, volumeLast24Hours: 0, percentChange1Hour: 0, percentChange24Hours: 0, percentChange7Days: 0,
-              marketCapitalization: 0
-            }
-          }
-        }
-      }
+    const resultData: RecursivePartial<ICurrencyListAPI> = {
+      data: { bitcoin: { id: 0, name: 'bitcoin', symbol: 'BTC', slug: 'bitcoin' } }
     };
     const httpClientSpy = spectator.get<HttpClient>(HttpClient);
     httpClientSpy.get.and.returnValue(cold('-x|', { x: resultData }));
 
-    spectator.service.getList().subscribe(data => expect(data).toEqual(resultData.data));
+    spectator.service.getList().subscribe(data => expect(data).toBe(resultData.data as ICurrencyItemType));
 
     expect(httpClientSpy.get.calls.argsFor(0)).toEqual(['/api/currency/USD']);
     expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
